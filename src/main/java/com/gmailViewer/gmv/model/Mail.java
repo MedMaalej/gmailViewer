@@ -7,14 +7,14 @@ public class Mail extends  BaseEntity {
    private String subject;
    private String senderEmail;
    private String receiverEmail;
-   private String content;
+   private StringBuilder content;
    private String receiptDate;
 
 
     public Mail() {
     }
 
-    public Mail(String subject, String senderEmail, String receiverEmail, String content, String receiptDate) {
+    public Mail(String subject, String senderEmail, String receiverEmail, StringBuilder content, String receiptDate) {
         this.subject = subject;
         this.senderEmail = senderEmail;
         this.receiverEmail = receiverEmail;
@@ -46,11 +46,11 @@ public class Mail extends  BaseEntity {
         this.receiverEmail = receiverEmail;
     }
 
-    public String getContent() {
+    public StringBuilder getContent() {
         return content;
     }
 
-    public void setContent(String content) {
+    public void setContent(StringBuilder content) {
         this.content = content;
     }
 

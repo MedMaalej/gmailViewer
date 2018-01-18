@@ -11,7 +11,7 @@ import javax.persistence.MappedSuperclass;
 public abstract class BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     @JsonIgnore
     private  long id;
 

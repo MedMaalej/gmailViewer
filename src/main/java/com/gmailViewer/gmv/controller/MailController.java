@@ -25,14 +25,7 @@ public class MailController {
     @Autowired
     MailRepository mailRepository;
 
-    @RequestMapping(value = "/addMail", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public void addMail(String subject, String senderMail, String receiverMail,
-                        String content, String receiptDate) {
-        Mail mail = new Mail(subject, senderMail, receiverMail, content, receiptDate);
-        mailRepository.save(mail);
 
-    }
 
     @RequestMapping(value = "/getMails", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -74,9 +67,10 @@ public class MailController {
                     Object contentObject = messages[i].getContent();
                     BodyPart clearTextPart = null;
                     BodyPart htmlTextPart = null;
-                    Multipart content = (Multipart) contentObject;
-                    int count = content.getCount();
+
                     if (contentObject instanceof Multipart) {
+                        Multipart content = (Multipart) contentObject;
+                        int count = content.getCount();
                         for (int j = 0; j < count; j++) {
                             BodyPart part = content.getBodyPart(j);
                             if (part.isMimeType("text/plain")) {
@@ -92,15 +86,17 @@ public class MailController {
                             String html = (String) htmlTextPart.getContent();
                             result = Jsoup.parse(html).text();
                         }
-                    } else if (contentObject instanceof String) // a simple text message
+                    } else if (contentObject instanceof String)
                     {
                         result = (String) contentObject;
                     } else {
                         System.out.println("Invalid message format");
                         result = null;
                     }
-                    mail.setContent(result);
+                    mail.setContent(new StringBuilder(result));
                     mail.setReceiptDate(messages[i].getSentDate().toString());
+                    mail.setId(i);
+                    mailRepository.save(mail);
                     mails.add(mail);
                 }
 
@@ -113,8 +109,6 @@ public class MailController {
                 e.printStackTrace();
             } catch (MessagingException e) {
                 e.printStackTrace();
-            }catch(Exception e) {
-                e.getStackTrace();
             }
         }
         return mails;
