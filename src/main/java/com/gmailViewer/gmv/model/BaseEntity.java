@@ -12,7 +12,6 @@ public abstract class BaseEntity {
 
     @Id
     @GeneratedValue
-    @JsonIgnore
     private  long id;
 
 

@@ -18,13 +18,13 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @Controller
 public class MailController {
 
     @Autowired
     MailRepository mailRepository;
-
 
 
     @RequestMapping(value = "/getMails", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -37,7 +37,8 @@ public class MailController {
 
         List<MailBox> mailBoxes = null;
         try {
-            mailBoxes = objectMapper.readValue(jsonMailBoxes, new TypeReference<List<MailBox>>(){});
+            mailBoxes = objectMapper.readValue(jsonMailBoxes, new TypeReference<List<MailBox>>() {
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -86,14 +87,13 @@ public class MailController {
                             String html = (String) htmlTextPart.getContent();
                             result = Jsoup.parse(html).text();
                         }
-                    } else if (contentObject instanceof String)
-                    {
+                    } else if (contentObject instanceof String) {
                         result = (String) contentObject;
                     } else {
                         System.out.println("Invalid message format");
                         result = null;
                     }
-                    mail.setContent(new StringBuilder(result));
+                    mail.setContent(result);
                     mail.setReceiptDate(messages[i].getSentDate().toString());
                     mail.setId(i);
                     mailRepository.save(mail);
@@ -102,14 +102,13 @@ public class MailController {
 
                 inbox.close(true);
                 store.close();
-
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (NoSuchProviderException e) {
                 e.printStackTrace();
             } catch (MessagingException e) {
                 e.printStackTrace();
-            } catch(Exception e) {
+            } catch (Exception e) {
                 e.getStackTrace();
             }
         }

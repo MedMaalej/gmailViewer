@@ -1,20 +1,22 @@
 package com.gmailViewer.gmv.model;
 
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 
 @Entity
 public class Mail extends  BaseEntity {
    private String subject;
    private String senderEmail;
    private String receiverEmail;
-   private StringBuilder content;
+   @Lob
+   private String content;
    private String receiptDate;
 
 
     public Mail() {
     }
 
-    public Mail(String subject, String senderEmail, String receiverEmail, StringBuilder content, String receiptDate) {
+    public Mail(String subject, String senderEmail, String receiverEmail, String content, String receiptDate) {
         this.subject = subject;
         this.senderEmail = senderEmail;
         this.receiverEmail = receiverEmail;
@@ -46,11 +48,11 @@ public class Mail extends  BaseEntity {
         this.receiverEmail = receiverEmail;
     }
 
-    public StringBuilder getContent() {
+    public String getContent() {
         return content;
     }
 
-    public void setContent(StringBuilder content) {
+    public void setContent(String content) {
         this.content = content;
     }
 
