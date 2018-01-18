@@ -109,6 +109,8 @@ public class MailController {
                 e.printStackTrace();
             } catch (MessagingException e) {
                 e.printStackTrace();
+            } catch(Exception e) {
+                e.getStackTrace();
             }
         }
         return mails;
